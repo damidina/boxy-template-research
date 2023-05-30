@@ -2,41 +2,54 @@
 
 import React from "react";
 import Logo from "./Logo";
+import openai from 'openai';
+import { Random } from 'random';
+const random = new Random();
+
 
 /**
  * ✨ Try selecting this function and ask questions about it! 👇
  */
-function inefficientFunction() {
-  [1, 2, 3, 4, 5, 6].filter((i) => i % 2 === 0);
-}
+
+// This function filters even numbers from an array of numbers.
+// It can be improved by using the more efficient method of chaining the filter and map methods.
+
+const inefficientFunction = () => {
+  [1, 2, 3, 4, 5, 6].filter((i) => i % 2 === 0).map((i) => i * 2);
+};
+
 
 const Card: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return <div className="py-4 w-3/4">{children}</div>;
 };
 
-export default function Home() {
+
+const updateNumber = () => {
+  const randomNumber = Math.floor(Math.random() * 101);
+
+const Card: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return <div className="py-4 w-3/4">{children}</div>;
+};
+
+const Home: React.FC = () => {
+  const [randomNumber, setRandomNumber] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    const intervalId = setInterval(() => {
+      const newRandomNumber = Math.floor(Math.random() * 101);
+      setRandomNumber(newRandomNumber);
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
-    <main className="flex min-h-screen flex-col">
-      <div className="flex items-center mb-6 p-12 bg-neutral-900/50">
-        <Logo />
-        <h1 className="ml-3 block">CodeSandbox AI Playground</h1>
-      </div>
-
-      <div className="px-12">
-        <Card>
-          <h3 className="text-lg mb-2">Refactor a component</h3>
-        </Card>
-
-        <Card>
-          <h3 className="text-lg mb-2">Ask for explanations</h3>
-        </Card>
-
-        <Card>
-          <h3 className="text-lg mb-2">Generate code</h3>
-        </Card>
-      </div>
-
-      <p className="absolute right-[108px] top-2">👆</p>
-    </main>
+    <div>
+      <Card>
+        <h1>Random Number: <span className="number">{randomNumber}</span></h1>
+      </Card>
+    </div>
   );
-}
+};
+
+export default Home;
